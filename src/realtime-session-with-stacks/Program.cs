@@ -16,6 +16,8 @@ namespace realtime_session_with_stacks
     {
         public static void Main(string[] args)
         {
+            //TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
+
             // Start logging events.
             EventProducer.LogEvents();
 
@@ -107,6 +109,11 @@ namespace realtime_session_with_stacks
 
             // Start processing events.
             eventSource.Process();
+        }
+
+        private static void TaskScheduler_UnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
+        {
+            Environment.FailFast("Unobserved Task Exception", e.Exception);
         }
 
         private static void PrintCallStack(TraceCallStack callStack)
